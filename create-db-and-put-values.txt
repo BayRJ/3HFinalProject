@@ -1,0 +1,116 @@
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone_number VARCHAR(15) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('customer', 'therapist', 'admin') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Services (
+    service_id INT AUTO_INCREMENT PRIMARY KEY,
+    service_name VARCHAR(100) NOT NULL,
+    description TEXT NOT NULL,
+    duration INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Appointments (
+    appointment_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    therapist_id INT,
+    service_id INT,
+    appointment_date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    status ENUM('pending', 'confirmed', 'completed', 'canceled') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (therapist_id) REFERENCES Users(user_id),
+    FOREIGN KEY (service_id) REFERENCES Services(service_id)
+);
+
+CREATE TABLE Payments (
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
+    appointment_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method ENUM('cash', 'credit_card', 'paypal'),
+    payment_status ENUM('paid', 'unpaid', 'refunded') DEFAULT 'unpaid',
+    transaction_id VARCHAR(100),
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (appointment_id) REFERENCES Appointments(appointment_id)
+);
+
+CREATE TABLE Availability (
+    availability_id INT PRIMARY KEY AUTO_INCREMENT,
+    therapist_id INT,
+    date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    FOREIGN KEY (therapist_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE Reviews (
+    review_id INT PRIMARY KEY AUTO_INCREMENT,
+    appointment_id INT,
+    user_id INT,
+    rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (appointment_id) REFERENCES Appointments(appointment_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+CREATE TABLE booking (
+    payment_id INT PRIMARY KEY AUTO_INCREMENT,
+    appointment_id INT NOT NULL,
+    therapist_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method ENUM('cash', 'credit_card', 'paypal'),
+    payment_status ENUM('paid', 'unpaid', 'refunded') DEFAULT 'unpaid',
+    transaction_id VARCHAR(100),
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    availability_id INT NOT NULL,
+    date DATE NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    
+    FOREIGN KEY (appointment_id) REFERENCES Appointments(appointment_id) ON DELETE CASCADE,
+    FOREIGN KEY (therapist_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+
+
+<!-- MADE UP DATA -->
+
+<!-- USERS -->
+INSERT INTO users (full_name, email, phone_number, password, role) VALUES
+('Jane Smith', 'jane.smith@email.com', '+63 921 123 4567', 'p@ssword123', 'admin'),  
+('Alice Brown', 'alice.brown@email.com', '+63 933 345 6789', 'alice!456', 'customer'),  
+('Bob White', 'bob.white@email.com', '+63 945 567 8901', 'b0b$ecure', 'therapist'),  
+('Charlie Green', 'charlie.green@email.com', '+63 954 234 5678', 'Ch@rl13!', 'customer'),  
+('Diana Black', 'diana.black@email.com', '+63 912 678 1234', 'D1@n@456', 'admin'),  
+('Ethan Blue', 'ethan.blue@email.com', '+63 934 789 2345', '3th@nBlue', 'customer'),  
+('Fiona Yellow', 'fiona.yellow@email.com', '+63 924 345 6789', 'Fi0n@y3llow', 'therapist'),  
+('George Red', 'george.red@email.com', '+63 955 567 1234', 'G3org3R3d!', 'customer'),  
+('Hannah Purple', 'hannah.purple@email.com', '+63 914 789 3456', 'H@nn@h123', 'customer'),  
+('Isaac Orange', 'isaac.orange@email.com', '+63 943 234 5678', '1s@@cOr@nge', 'therapist')
+
+
+
+<!-- SERVICES -->
+INSERT INTO services (service_id, service_name, description, duration, price)
+VALUES
+(1, 'Foot Massage', 'A relaxing massage focused on the feet to relieve stress.', 30, 800.00),
+(2, 'Swedish Massage', 'A classic full-body massage that promotes relaxation and improves circulation.', 60, 1500.00),  
+(3, 'Deep Tissue Massage', 'A massage targeting deeper layers of muscles to relieve chronic tension.', 60, 1800.00),  
+(4, 'Hot Stone Massage', 'A soothing massage using heated stones to ease muscle stiffness.', 90, 2200.00),  
+(5, 'Aromatherapy Massage', 'A relaxing massage that incorporates essential oils for enhanced relaxation.', 60, 1600.00),  
+(6, 'Thai Massage', 'A traditional massage that involves stretching and acupressure techniques.', 90, 2000.00),  
+ 

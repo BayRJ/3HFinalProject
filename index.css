@@ -1,0 +1,298 @@
+.header-container {
+  width: 100%;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5rem; /* Equivalent to h-20 */
+  width: 100%; /* Full width */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50; /* Equivalent to z-50 */
+  background-color: #fed7aa; /* Equivalent to bg-orange-200 */
+  margin-bottom: 5rem; /* Equivalent to mb-20 */
+  padding: 0 1.5rem; /* Add some padding for spacing */
+}
+
+/* Logo Section */
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-left: 1.25rem; /* Equivalent to ml-5 */
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 10vh; /* Equivalent to h-[10vh] */
+  width: auto; /* Equivalent to w-30 */
+}
+
+.logo-text {
+  color: #065f46; /* Equivalent to text-green-900 */
+  font-weight: bold; /* Equivalent to font-bold */
+  font-size: 1.25rem; /* Equivalent to text-xl */
+  cursor: pointer;
+  letter-spacing: 0.05em; /* Equivalent to tracking-wide */
+  margin-left: -1.75rem; /* Equivalent to -ml-7 */
+}
+
+@media (min-width: 640px) {
+  .logo-text {
+    font-size: 1.5rem; /* Equivalent to sm:text-2xl */
+  }
+}
+
+@media (min-width: 768px) {
+  .logo-text {
+    font-size: 1.875rem; /* Equivalent to md:text-3xl */
+  }
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem; /* Equivalent to space-x-6 */
+  margin: 0;
+}
+
+.nav-link {
+  color: #4b5563; /* Equivalent to text-gray-800 */
+  font-weight: 600; /* Equivalent to font-semibold */
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #047857; /* Equivalent to hover:text-green-500 */
+}
+
+/* Authentication Links */
+.auth-links {
+  display: flex;
+  gap: 0.5rem; /* Equivalent to gap-2 */
+  margin-right: 2rem; /* Equivalent to mr-8 */
+}
+
+.auth-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: #4b5563; /* Equivalent to text-gray-800 */
+  transition: color 0.3s ease-in-out;
+}
+
+.auth-link:hover {
+  color: #047857; /* Equivalent to hover:text-green-500 */
+}
+
+/* General Styles */
+body {
+  font-family: sans-serif;
+  background-color: #ffedd5; /* Equivalent to bg-orange-100 */
+  margin: 0;
+  padding: 0;
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.divider {
+  height: 2px;
+  width: 100%;
+  background-color: black;
+}
+
+/* Header Section */
+.header-section {
+  padding-top: 5rem; /* Equivalent to pt-20 */
+  overflow-x: hidden;
+}
+
+.background-johny {
+  background: url('johny-sins.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 2rem;
+  height: 100vh;
+  width: 100vw;
+}
+
+.hero-logo {
+  opacity: 0.5;
+  max-width: 100%;
+}
+
+.headline {
+  text-align: center;
+}
+
+.title-primary {
+  font-size: 3rem; /* Equivalent to text-5xl */
+  font-weight: bold;
+  color: white;
+}
+
+.title-secondary {
+  font-size: 1.875rem; /* Equivalent to text-3xl */
+  font-weight: bold;
+  color: white;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-primary {
+  background-color: #065f46; /* Equivalent to bg-green-950 */
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  font-size: 1.5rem; /* Equivalent to text-2xl */
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: white;
+  color: #10b981; /* Equivalent to text-green-500 */
+}
+
+/* Services Section */
+.section-title {
+  text-align: center;
+  font-size: 36px;
+}
+
+.services-section {
+  margin-bottom: 5rem; /* Equivalent to mb-20 */
+}
+
+.services-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2.5rem; /* Equivalent to gap-10 */
+  padding: 2rem 0;
+}
+
+.book-now {
+  font-size: 0.875rem;
+  padding: 0.75rem 2rem;
+  margin-top: 1.25rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #065f46;
+  color: #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: none;
+  text-decoration: none;
+}
+
+.book-now:hover {
+  background-color: #86efac; /* equivalent to hover:bg-green-300 */
+  color: #065f46; /* equivalent to hover:text-green-900 */
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
+.testimonial-container {
+  padding: 2rem;
+}
+
+/* Call to Action Section */
+.cta-section {
+  height: 50vh;
+  gap: 1.5rem;
+}
+
+.cta-text {
+  font-size: 1.875rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin: 0.5rem 0;
+}
+
+.footer-text {
+  font-size: 1.25rem;
+}
+
+/* Service Card */
+.service-card {
+  display: flex;
+  flex-direction: column;
+  width: 20rem; /* Equivalent to w-80 */
+  padding: 1.25rem; /* Equivalent to p-5 */
+  background-color: rgba(255, 255, 255, 0.75); /* Equivalent to bg-white/75 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-xl */
+  gap: 1.25rem; /* Equivalent to gap-5 */
+  border: 2px solid white; /* Equivalent to border-2 border-white */
+  border-radius: 1rem; /* Equivalent to rounded-2xl */
+  overflow: hidden;
+}
+
+/* Image Container */
+.image-container {
+  height: 10rem; /* Equivalent to h-40 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 0.75rem; /* Equivalent to rounded-xl */
+}
+
+.service-image {
+  width: 100%;
+  object-fit: cover; /* Equivalent to object-cover */
+  display: block;
+}
+
+/* Text Content */
+.text-content {
+  word-wrap: break-word; /* Equivalent to break-words */
+  width: 100%; /* Equivalent to w-full */
+}
+
+.service-name {
+  font-size: 0.875rem; /* Equivalent to text-sm */
+  color: #047857; /* Equivalent to text-green-700 */
+  font-weight: 500; /* Equivalent to font-medium */
+}
+
+.service-description {
+  font-size: 0.875rem; /* Equivalent to text-sm */
+  color: #000000; /* Equivalent to text-black */
+  font-weight: bold;
+}
+
+.service-price {
+  font-size: 1.5rem; /* Equivalent to text-2xl */
+  color: #000000; /* Equivalent to text-black */
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+}
