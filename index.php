@@ -19,8 +19,8 @@
         <li><a href="/CIT17-3H" class="nav-link">Home</a></li>
         <li><a href="/CIT17-3H/service-list.php" class="nav-link">Service List</a></li>
         <li><a href="/CIT17-3H/booking.php" class="nav-link">Booking</a></li>
-        <li><a href="/userdashboard" class="nav-link">User</a></li>
-        <li><a href="/admindashboard" class="nav-link">Admin</a></li>
+        <li><a href="/CIT17-3H/user-dashboard.php" class="nav-link">User</a></li>
+        <li><a href="/CIT17-3H/admin-dashboard.php" class="nav-link">Admin</a></li>
       </ul>
       <div class="auth-links">
         <a href="/userdashboard" class="auth-link">Login</a>
