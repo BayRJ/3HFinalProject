@@ -28,6 +28,66 @@
       </div>
     </nav>
   </div>
+  <div class="dashboard">
+    <div class="container">
+      <h1 class="title">Admin Dashboard</h1>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab" data-tab="bookings">Manage Bookings</button>
+        <button class="tab" data-tab="services">Manage Services</button>
+        <button class="tab" data-tab="schedule">Therapist Schedule</button>
+        <button class="tab" data-tab="payments">Payments & Reports</button>
+      </div>
+
+      <!-- Booking Management -->
+      <div class="section bookings">
+        <h2 class="subtitle">Manage Bookings</h2>
+
+        <!-- Filters -->
+        <div class="filters">
+          <label for="booking-status">Booking Status:</label>
+          <select id="booking-status" class="select">
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+
+        <!-- Booking Table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Service</th>
+              <th>Date & Time</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>John Doe</td>
+              <td>Massage</td>
+              <td>2024-11-20 at 10:00 AM</td>
+              <td>Confirmed</td>
+              <td>
+                <button class="btn approve">Approve</button>
+                <button class="btn cancel">Cancel</button>
+                <button class="btn reschedule">Reschedule</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Other sections can be added here in the same structure -->
+
+    </div>
+  </div>
 </body>
 
 </html>

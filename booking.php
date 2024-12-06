@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $_SESSION['appointment_confirmation'] = "Appointment Confirmed! Your spa appointment has been booked successfully.";
 
       // Redirect to user page
-      header("Location: user.php");
+      header("Location: user-dashboard.php");
       exit();
     } catch (PDOException $e) {
       $confirmationMessage = "Error: " . $e->getMessage();
