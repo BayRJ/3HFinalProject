@@ -5,6 +5,12 @@
 require './database/db_connection.php';
 
 session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 function getServices($pdo)
 {
   $stmt = $pdo->query("SELECT * FROM Services");
@@ -17,70 +23,91 @@ function getTherapists($pdo)
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function isTimeSlotAvailable($pdo, $therapist_id, $appointment_date, $start_time, $end_time) {
+    $stmt = $pdo->prepare("
+        SELECT COUNT(*) FROM Appointments 
+        WHERE therapist_id = :therapist_id 
+        AND appointment_date = :appointment_date 
+        AND ((start_time <= :start_time AND end_time > :start_time)
+        OR (start_time < :end_time AND end_time >= :end_time))
+    ");
+    $stmt->execute([
+        ':therapist_id' => $therapist_id,
+        ':appointment_date' => $appointment_date,
+        ':start_time' => $start_time,
+        ':end_time' => $end_time
+    ]);
+    return $stmt->fetchColumn() === 0;
+}
+
 $services = getServices($pdo);
 $specialists = getTherapists($pdo); // Fetch spa specialists
 $confirmationMessage = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $service_id = $_POST['service'];
-  $specialist_id = $_POST['specialist'];
-  $appointment_date = $_POST['appointment_date'];
-  $time_slot = $_POST['time_slot'];
-  $payment_method = $_POST['payment_method'];
-  $promo_code = $_POST['promo_code'] ?? null;
-
-  // Validate therapist exists and has 'therapist' role
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM Users WHERE user_id = :user_id AND role = 'therapist'");
-  $stmt->execute([':user_id' => $specialist_id]);
-  $therapistExists = $stmt->fetchColumn();
-
-  if (!$therapistExists) {
-    $confirmationMessage = "Error: Selected therapist does not exist or is not a valid therapist.";
-  } else {
-    try {
-      // Fetch the price of the selected service
-      $stmt = $pdo->prepare("SELECT price, duration FROM Services WHERE service_id = :service_id");
-      $stmt->execute([':service_id' => $service_id]);
-      $service = $stmt->fetch(PDO::FETCH_ASSOC);
-
-      // Check if service exists
-      if (!$service) {
-        throw new Exception("Selected service not found.");
-      }
-
-      $service_price = $service['price'];
-      $duration = $service['duration']; // Duration in minutes
-
-      // Calculate end time (assuming service duration in minutes)
-      $end_time = date("H:i", strtotime("+$duration minutes", strtotime($time_slot)));
-
-      // Insert the appointment into the Appointments table
-      $stmt = $pdo->prepare("
-                INSERT INTO Appointments 
-                (user_id, service_id, therapist_id, appointment_date, start_time, end_time, status) 
-                VALUES (:user_id, :service_id, :therapist_id, :appointment_date, :start_time, :end_time, 'pending')
-            ");
-      $stmt->execute([
-        ':user_id' => $_SESSION['user_id'], // Get the user ID from session
-        ':service_id' => $service_id,
-        ':therapist_id' => $specialist_id,
-        ':appointment_date' => $appointment_date,
-        ':start_time' => $time_slot,
-        ':end_time' => $end_time
-      ]);
-
-      // Set the confirmation message in session
-      $_SESSION['appointment_confirmation'] = "Appointment Confirmed! Your spa appointment has been booked successfully.";
-
-      // Redirect to user page
-      header("Location: user-dashboard.php");
-      exit();
-    } catch (PDOException $e) {
-      $confirmationMessage = "Error: " . $e->getMessage();
-    } catch (Exception $e) {
-      $confirmationMessage = "Error: " . $e->getMessage();
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die('CSRF token validation failed');
     }
-  }
+
+    // Add input validation
+    if (empty($service_id) || empty($specialist_id) || empty($appointment_date) || empty($time_slot)) {
+        $confirmationMessage = "Error: All fields are required.";
+    } else if (strtotime($appointment_date) < strtotime('today')) {
+        $confirmationMessage = "Error: Cannot book appointments in the past.";
+    } else {
+        // Validate therapist exists and has 'therapist' role
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM Users WHERE user_id = :user_id AND role = 'therapist'");
+        $stmt->execute([':user_id' => $specialist_id]);
+        $therapistExists = $stmt->fetchColumn();
+
+        if (!$therapistExists) {
+            $confirmationMessage = "Error: Selected therapist does not exist or is not a valid therapist.";
+        } else {
+            try {
+                // Fetch the price of the selected service
+                $stmt = $pdo->prepare("SELECT price, duration FROM Services WHERE service_id = :service_id");
+                $stmt->execute([':service_id' => $service_id]);
+                $service = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                // Check if service exists
+                if (!$service) {
+                    throw new Exception("Selected service not found.");
+                }
+
+                $service_price = $service['price'];
+                $duration = $service['duration']; // Duration in minutes
+
+                // Calculate end time (assuming service duration in minutes)
+                $end_time = date("H:i", strtotime("+$duration minutes", strtotime($time_slot)));
+
+                // Insert the appointment into the Appointments table
+                $stmt = $pdo->prepare("
+                        INSERT INTO Appointments 
+                        (user_id, service_id, therapist_id, appointment_date, start_time, end_time, status) 
+                        VALUES (:user_id, :service_id, :therapist_id, :appointment_date, :start_time, :end_time, 'pending')
+                    ");
+                $stmt->execute([
+                    ':user_id' => $_SESSION['user_id'], // Get the user ID from session
+                    ':service_id' => $service_id,
+                    ':therapist_id' => $specialist_id,
+                    ':appointment_date' => $appointment_date,
+                    ':start_time' => $time_slot,
+                    ':end_time' => $end_time
+                ]);
+
+                // Set the confirmation message in session
+                $_SESSION['appointment_confirmation'] = "Appointment Confirmed! Your spa appointment has been booked successfully.";
+
+                // Redirect to user page
+                header("Location: user-dashboard.php");
+                exit();
+            } catch (PDOException $e) {
+                $confirmationMessage = "Error: " . $e->getMessage();
+            } catch (Exception $e) {
+                $confirmationMessage = "Error: " . $e->getMessage();
+            }
+        }
+    }
 }
 ?>
 
@@ -145,13 +172,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <h1><?= $confirmationMessage ?></h1>
         </div>
       <?php else: ?>
-        <form action="" method="POST">
+        <form action="" method="POST" id="booking-form">
+          <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
           <!-- Step 1: Select Service and Therapist -->
           <div class="step-section">
             <h2 class="step-title">Step 1: Select Service and Therapist</h2>
             <div class="input-group">
               <label class="label">Select Service</label>
-              <select id="service" name="service" class="input">
+              <select id="service" name="service" class="input" required>
                 <?php foreach ($services as $service): ?>
                   <option value="<?= $service['service_id']; ?>">
                     <?= $service['service_name']; ?> - ₱<?= number_format($service['price'], 2); ?>
@@ -194,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="input-group">
               <label class="label">Payment Method</label>
-              <select id="payment-method" class="input">
+              <select id="payment-method" name="payment_method" class="input" required>
                 <option value="">--Choose a Payment Method--</option>
                 <option value="credit-card">Credit Card</option>
                 <option value="paypal">PayPal</option>
