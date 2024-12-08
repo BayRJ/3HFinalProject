@@ -2,8 +2,6 @@
 require './database/db_connection.php';
 session_start();
 
-
-
 $queryServices = "SELECT * FROM Services";
 $stmtServices = $pdo->query($queryServices);
 $services = $stmtServices->fetchAll(PDO::FETCH_ASSOC);
@@ -20,25 +18,26 @@ $queryAppointments = "
         COALESCE(u2.full_name, 'N/A') AS customer_name,
         COALESCE(s.service_name, 'N/A') AS service_name
     FROM Appointments a
-    LEFT JOIN Users u ON a.therapist_id = u.user_id
-    LEFT JOIN Users u2 ON a.user_id = u2.user_id
+    LEFT JOIN Users u ON a.therapist_id = u.user_id AND u.user_type = 'therapist'
+    LEFT JOIN Users u2 ON a.user_id = u2.user_id AND u2.user_type = 'customer'
     LEFT JOIN Services s ON a.service_id = s.service_id
-";
+    WHERE 1=1
+    " . ($filterStatus !== 'all' ? "AND a.status = :status" : "") . "
+    ORDER BY a.appointment_date DESC";
 
-if ($filterStatus !== 'all') {
-  $queryAppointments .= " WHERE a.status = :status";
+try {
+    $stmtAppointments = $pdo->prepare($queryAppointments);
+    if ($filterStatus !== 'all') {
+        $stmtAppointments->execute([':status' => $filterStatus]);
+    } else {
+        $stmtAppointments->execute();
+    }
+    $appointments = $stmtAppointments->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $message = "An error occurred while fetching appointments.";
+    $appointments = [];
 }
-
-$queryAppointments .= " ORDER BY a.appointment_date DESC";
-
-$stmtAppointments = $pdo->prepare($queryAppointments);
-
-if ($filterStatus !== 'all') {
-  $stmtAppointments->execute([':status' => $filterStatus]);
-} else {
-  $stmtAppointments->execute();
-}
-$appointments = $stmtAppointments->fetchAll(PDO::FETCH_ASSOC);
 
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -77,33 +76,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $editService = null; // For holding the service being edited
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (isset($_POST['add_service'])) {
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $duration = $_POST['duration'];
-
-    $queryAdd = "INSERT INTO Services (service_name, description, price, duration) VALUES (:name, :description, :price, :duration)";
-    $stmtAdd = $pdo->prepare($queryAdd);
-    $stmtAdd->execute([':name' => $name, ':description' => $description, ':price' => $price, ':duration' => $duration]);
-
-    $message = "Service added successfully!";
-  } elseif (isset($_POST['edit_service'])) {
-    $id = $_POST['service_id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $duration = $_POST['duration'];
-
-    $queryEdit = "UPDATE Services SET service_name = :name, description = :description, price = :price, duration = :duration WHERE service_id = :id";
-    $stmtEdit = $pdo->prepare($queryEdit);
-    $stmtEdit->execute([':name' => $name, ':description' => $description, ':price' => $price, ':duration' => $duration, ':id' => $id]);
-
-    $message = "Service updated successfully!";
-
-    // Redirect to reset the form after successful edit
-    header("Location: " . $_SERVER['PHP_SELF'] . "#manage-services");
-    exit;  // Stop further script execution after redirection
+  if (isset($_POST['add_service']) || isset($_POST['edit_service'])) {
+    $errors = [];
+    if (empty($_POST['name'])) $errors[] = "Service name is required";
+    if (!is_numeric($_POST['price']) || $_POST['price'] < 0) $errors[] = "Invalid price";
+    if (!is_numeric($_POST['duration']) || $_POST['duration'] < 0) $errors[] = "Invalid duration";
+    
+    if (empty($errors)) {
+        // Proceed with current logic
+    } else {
+        $message = "Validation errors: " . implode(", ", $errors);
+    }
   } elseif (isset($_POST['delete_service'])) {
     $id = $_POST['service_id'];
 
