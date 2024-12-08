@@ -3,8 +3,15 @@ require './database/db_connection.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
+  $_SESSION['error'] = "Please login to access the dashboard";
   header("Location: login.php");
   exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("Invalid request");
+    }
 }
 
 $user_id = $_SESSION['user_id'];
@@ -45,6 +52,10 @@ try {
   }
 
   // Fetch user bookings and associated reviews
+  $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+  $limit = 10;
+  $offset = ($page - 1) * $limit;
+
   $stmtBookings = $pdo->prepare("
         SELECT 
             a.appointment_id,
@@ -62,8 +73,9 @@ try {
         LEFT JOIN Reviews r ON a.appointment_id = r.appointment_id
         WHERE a.user_id = ?
         ORDER BY a.appointment_date ASC, a.start_time ASC
+        LIMIT ? OFFSET ?
     ");
-  $stmtBookings->execute([$user_id]);
+  $stmtBookings->execute([$user_id, $limit, $offset]);
   $bookings = $stmtBookings->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   die("Error: " . $e->getMessage());
@@ -135,6 +147,7 @@ try {
                     <a href="re-sched.php?appointment_id=<?php echo $booking['appointment_id']; ?>"><button class="reschedule" style="  padding: 10px;
   background-color: #FFFFD5; border: none; font-weight: bold; border-radius: 20px;">Reschedule</button></a>
                     <form method="POST" style="display:inline;">
+                      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                       <input type="hidden" name="cancel_appointment_id" value="<?php echo $booking['appointment_id']; ?>">
                       <button type="submit" class="cancel" style="  padding: 10px;
   background-color: #FF474C; border: none; font-weight: bold; border-radius: 20px;">Cancel</button>
