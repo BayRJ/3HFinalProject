@@ -5,7 +5,7 @@
 session_start();
 include './database/db_connection.php';
 if (isset($_SESSION['user_id'])) {
-  header("Location: user.php");
+  header("Location: user-dashboard.php");
   exit();
 }
 

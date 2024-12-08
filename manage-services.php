@@ -77,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $editService = null; // For holding the service being edited
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
   if (isset($_POST['add_service'])) {
     $name = $_POST['name'];
     $description = $_POST['description'];
@@ -113,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $referenceCount = $stmtCheck->fetchColumn();
 
     if ($referenceCount > 0) {
-      $message = "Cannot delete service. It is currently used in $referenceCount appointment(s).";
+      $message = "Cannot perform action. Service still have $referenceCount appointment(s).";
     } else {
       $queryDelete = "DELETE FROM Services WHERE service_id = :id";
       $stmtDelete = $pdo->prepare($queryDelete);
@@ -150,6 +151,7 @@ $queryPayments = "
 $stmtPayments = $pdo->query($queryPayments);
 $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -157,7 +159,7 @@ $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./admin-dashboard.css" />
+  <link rel="stylesheet" href="manage-service.css" />
 </head>
 
 <body>
@@ -202,87 +204,89 @@ $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </nav>
   </div>
-  <div class="dashboard" style="margin-top: 90px;">
+
+  <div class="dashboard">
     <div class="container">
       <h1 class="title">Admin Dashboard</h1>
 
       <!-- Tabs -->
       <div class="tabs">
-        <button class="tab" data-tab="bookings">Manage Bookings</button>
-        <button class="tab" data-tab="services"><a href="/CIT17-3H/manage-services.php" style="color:white; text-decoration: none;">Manage Services</a></button>
+        <button class="tab" data-tab="bookings"><a href="/CIT17-3H/admin-dashboard.php" style="color: white;">Manage Bookings</a></button>
+        <button class="tab" data-tab="services"><a href="/CIT17-3H/manage-services.php" style="color: white;">Manage Services</a></button>
         <button class="tab" data-tab="schedule">Therapist Schedule</button>
         <button class="tab" data-tab="payments">Payments & Reports</button>
       </div>
 
       <!-- Booking Management -->
-      <div class="section bookings">
-        <h2 class="subtitle">Manage Bookings</h2>
-
-        <!-- Filters -->
-        <div class="filters">
-          <label for="booking-status">Booking Status:</label>
-          <select id="booking-status" class="select">
-            <option value="all">All</option>
-            <option value="pending">Pending</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="completed">Completed</option>
-          </select>
-        </div>
-
-        <!-- Booking Table -->
-        <table class="table">
+      <section id="manage-services">
+        <h2>Manage Services</h2>
+        <?php if (!empty($message)): ?>
+          <p style="color: green;"><?= htmlspecialchars($message) ?></p>
+        <?php endif; ?>
+        <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Customer</th>
-              <th>Service</th>
-              <th>Therapist</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Status</th>
+              <th>Service ID</th>
+              <th>Service Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Duration</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($appointments as $appointment): ?>
+            <?php foreach ($services as $service): ?>
               <tr>
-                <td><?= $appointment['appointment_id'] ?></td>
-                <td><?= htmlspecialchars($appointment['customer_name']) ?></td>
-                <td><?= htmlspecialchars($appointment['service_name']) ?></td>
-                <td><?= htmlspecialchars($appointment['therapist_name']) ?></td>
-                <td><?= htmlspecialchars($appointment['date']) ?></td>
-                <td><?= htmlspecialchars($appointment['start_time']) . ' - ' . htmlspecialchars($appointment['end_time']) ?></td>
-                <td><?= htmlspecialchars($appointment['appointment_status']) ?></td>
-                <td style="display: flex;">
-                  <?php if ($appointment['appointment_status'] == 'pending'): ?>
-                    <form method="POST" style="display:inline;">
-                      <input type="hidden" name="appointment_id" value="<?= $appointment['appointment_id'] ?>">
-                      <button type="submit" name="action" value="approve" style="  padding: 10px;
-  background-color: lightgreen; border: none; font-weight: bold; border-radius: 20px;">Approve</button>
-                    </form>
-                    <form method=" POST" style="display:inline;">
-                      <input type="hidden" name="appointment_id" value="<?= $appointment['appointment_id'] ?>">
-                      <button type="submit" name="action" value="cancel" style="  padding: 10px;
-  background-color: #FF474C; border: none; font-weight: bold; border-radius: 20px;">Cancel</button>
-                    </form>
-                  <?php endif; ?>
-                  <?php if ($appointment['appointment_status'] == 'confirmed'): ?>
-                    <form method=" POST" style="display:inline;">
-                      <input type="hidden" name="appointment_id" value="<?= $appointment['appointment_id'] ?>">
-                      <button type="submit" name="action" value="complete" style="padding: 8px; border: none; background-color: lightgreen;  font-size: 16px; border-radius: 8px;">Complete</button>
-                    </form>
-                  <?php endif; ?>
+                <td><?= $service['service_id'] ?></td>
+                <td><?= htmlspecialchars($service['service_name']) ?></td>
+                <td><?= htmlspecialchars($service['description']) ?></td>
+                <td>$<?= htmlspecialchars($service['price']) ?></td>
+                <td><?= htmlspecialchars($service['duration']) ?> mins</td>
+                <td style="display: flex; margin-bottom: 15px;">
+                  <form method="GET" action="#manage-services" style="display:inline;">
+                    <input type="hidden" name="edit_service_id" value="<?= $service['service_id'] ?>">
+                    <button type="submit" style="  padding: 10px;
+  background-color: #FFFFD5; border: none; font-weight: bold; border-radius: 20px;">Edit</button>
+                  </form>
+                  <form method="POST" action="#manage-services" style="display:inline;">
+                    <input type="hidden" name="service_id" value="<?= $service['service_id'] ?>">
+                    <button name="delete_service" onclick="return confirm('Are you sure you want to delete this service?');" style="  padding: 10px;
+  background-color: #FF474C; border: none; font-weight: bold; border-radius: 20px;">Delete</button>
+                  </form>
                 </td>
               </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
-      </div>
+
+
+
+        <form method="POST" action="#manage-services">
+          <h3><?= $editService ? 'Edit' : 'Add' ?> Service</h3>
+          <?php if ($editService): ?>
+            <input type="hidden" name="service_id" value="<?= $editService['service_id'] ?>">
+          <?php endif; ?>
+          <label>Service Name</label>
+          <input type="text" name="name" placeholder="Service Name" value="<?= $editService['service_name'] ?? '' ?>" style="width: 97%; padding: 10px;border-radius: 10px; border: none; margin-bottom: 10px;" required>
+          <label>Description</label>
+          <textarea name="description" placeholder="Description" style="width: 97%; padding: 10px;border-radius: 10px; border: none; margin-bottom: 10px;"><?= $editService['description'] ?? '' ?></textarea>
+          <label>Price</label>
+          <input type="number" name="price" placeholder="Price" value="<?= $editService['price'] ?? '' ?>" style="width: 97%; padding: 10px;border-radius: 10px; border: none; margin-bottom: 10px;" required>
+          <label>Druation</label>
+          <input type="number" name="duration" placeholder="Duration (mins)" value="<?= $editService['duration'] ?? '' ?>" style="width: 97%; padding: 10px;border-radius: 10px; border: none; margin-bottom: 10px;" required>
+          <button name="<?= $editService ? 'edit_service' : 'add_service' ?>" style="width: 99%; padding: 10px;border-radius: 10px; border: none; background-color: #065f46; margin-top: 10px; color: white; font-weight: bold;">
+            <?= $editService ? 'Update' : 'Add' ?>
+          </button>
+        </form>
+      </section>
 
       <!-- Other sections can be added here in the same structure -->
 
     </div>
   </div>
+
+
+
 </body>
 
 </html>

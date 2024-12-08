@@ -1,4 +1,7 @@
 <?php
+
+
+
 require './database/db_connection.php';
 
 session_start();
@@ -106,9 +109,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <li><a href="/CIT17-3H/user-dashboard.php" class="nav-link">User</a></li>
         <li><a href="/CIT17-3H/admin-dashboard.php" class="nav-link">Admin</a></li>
       </ul>
-      <div class="auth-links">
-        <a href="/userdashboard" class="auth-link">Login</a>
-        <a href="/userdashboard" class="auth-link">Register</a>
+
+      <div class="user-icon">
+        <?php if (isset($_SESSION['user_id'])): ?>
+          <?php
+          try {
+            $stmt = $pdo->prepare("SELECT email FROM Users WHERE user_id = :user_id");
+            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user_email = $user['email'] ?? "User";
+          } catch (PDOException $e) {
+            $user_email = "User";
+          }
+          ?>
+          <span><?php echo htmlspecialchars($user_email); ?></span>
+          <form action="logout.php" method="post" style="display:inline;">
+            <button type="submit" class="logout-btn" style="border: none; border-bottom: 2px solid white; background-color: transparent; color: white; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-right: 40px;">Logout</button>
+          </form>
+        <?php else: ?>
+          <a href="./login.php" style="margin-right: 40px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+            </svg>
+          </a>
+        <?php endif; ?>
       </div>
     </nav>
   </div>

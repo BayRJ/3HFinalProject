@@ -88,159 +88,126 @@
 .auth-link:hover {
   color: #047857; /* Equivalent to hover:text-green-500 */
 }
-/* General Styles */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fdf6ec;
+  background-color: #fef3c7;
+  margin-top: 65px;
 }
 
-.dashboard-container {
-  margin-top: 20px;
+.dashboard {
   width: 100%;
-  height: 110vh;
-  background-color: #fde68a;
-  padding: 1rem;
+  min-height: 120vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.dashboard-content {
-  width: 90%;
-  margin: 4rem auto;
-  padding: 2rem;
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
   background-color: #f3f4f6;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Titles */
-.dashboard-title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-/* Tabs Navigation */
-.tab-navigation {
+.tabs {
   display: flex;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.tab-button {
-  font-size: 1.2rem;
-  font-weight: 500;
-  background: none;
+.tab {
+  font-size: 16px;
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  color: #4b5563;
 }
 
-.tab-button.active {
-  color: #2563eb;
-  font-weight: 600;
+.tab:hover {
+  background-color: #1e40af;
 }
 
-/* Tab Content */
-.tab-content {
-  /* display: none; */
+.section {
+  margin-bottom: 40px;
 }
 
-.tab-content.active {
-  display: block;
+.subtitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
-/* Appointments */
-.appointments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.filters {
+  margin-bottom: 20px;
 }
 
-.appointment-card {
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.appointment-info {
-  font-size: 1rem;
-}
-
-.action-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  color: #ffffff;
-}
-
-.cancel-button {
-  background-color: #dc2626;
-}
-
-.reschedule-button {
-  background-color: #facc15;
-}
-
-/* Forms */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-label {
-  font-size: 1rem;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.5rem;
+.select {
+  padding: 5px;
   border: 1px solid #d1d5db;
   border-radius: 5px;
 }
 
-.form-input:focus {
-  border-color: #2563eb;
-  outline: none;
+.table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.form-button {
-  padding: 0.5rem 1rem;
-  background-color: #2563eb;
-  color: #ffffff;
+.table th,
+.table td {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  text-align: left;
+}
+
+.table th {
+  background-color: #e5e7eb;
+}
+
+.table .btn {
+  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  color: white;
 }
 
-.form-button:hover {
-  background-color: #1e40af;
+.btn.approve {
+  background-color: #10b981;
 }
 
-/* Promotions */
-.promotions-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+.btn.cancel {
+  background-color: #ef4444;
 }
 
-.promotion-card {
-  padding: 1rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.btn.reschedule {
+  background-color: #f59e0b;
 }
 
-.reschedule {
-  padding: 10rem;
-  background-color: #ffff00;
+.btn:hover {
+  opacity: 0.9;
+}
+
+a {
+  text-decoration: none;
+}
+.input {
+  width: 100%;
+}
+
+th {
+  text-align: left;
 }

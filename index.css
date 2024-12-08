@@ -95,6 +95,7 @@ body {
   background-color: #ffedd5; /* Equivalent to bg-orange-100 */
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 .flex-center {
@@ -124,6 +125,13 @@ body {
   width: 100vw;
 }
 
+.nature-services {
+  background: url('nature.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 2rem;
+  height: 100vh;
+  width: 100vw;
+}
 .hero-logo {
   opacity: 0.5;
   max-width: 100%;
@@ -234,7 +242,6 @@ body {
 /* Footer */
 .footer {
   text-align: center;
-  margin: 0.5rem 0;
 }
 
 .footer-text {
@@ -295,4 +302,9 @@ body {
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.cta-section {
+  height: 120vh;
+  width: 100vw;
 }

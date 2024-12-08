@@ -199,3 +199,8 @@ body {
 .btn:hover {
   opacity: 0.9;
 }
+
+.admin-features {
+  text-decoration: none;
+  color: white;
+}
