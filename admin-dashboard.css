@@ -204,3 +204,49 @@ body {
   text-decoration: none;
   color: white;
 }
+
+/* 1. Add responsive navigation for mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide by default on mobile */
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+    background-color: #fed7aa;
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .mobile-menu-btn {
+    display: block; /* Show hamburger menu on mobile */
+  }
+}
+
+/* 2. Add loading state styles */
+.btn.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+/* 3. Add better table responsiveness */
+@media (max-width: 640px) {
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* 4. Add focus states for accessibility */
+.btn:focus,
+.nav-link:focus,
+.auth-link:focus {
+    outline: 2px solid #047857;
+    outline-offset: 2px;
+}
