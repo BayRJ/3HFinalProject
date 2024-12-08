@@ -244,3 +244,50 @@ body {
   padding: 10rem;
   background-color: #ffff00;
 }
+
+/* Add CSS variables for consistent theming */
+:root {
+    --primary-color: #047857;
+    --secondary-color: #fed7aa;
+    --text-color: #4b5563;
+    --danger-color: #FF474C;
+    --success-color: lightgreen;
+    --warning-color: #FFFFD5;
+    --border-radius: 20px;
+}
+
+/* Improve responsive design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Add hamburger menu for mobile */
+    }
+    
+    .dashboard-content {
+        width: 95%;
+        padding: 1rem;
+    }
+    
+    .appointment-item {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Add smooth transitions */
+.tab-button, .nav-link, .action-button {
+    transition: all 0.3s ease;
+}
+
+/* Improve accessibility */
+.tab-button:focus, 
+.nav-link:focus, 
+.action-button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Add loading state styles */
+.button-loading {
+    opacity: 0.7;
+    cursor: wait;
+}
