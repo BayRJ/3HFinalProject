@@ -10,9 +10,10 @@ session_start();
 
 
 
-$queryServices = "SELECT * FROM Services";
-$stmtServices = $pdo->query($queryServices);
-$services = $stmtServices->fetchAll(PDO::FETCH_ASSOC);
+$queryServices = "SELECT * FROM Services WHERE service_id = :id";
+$stmt = $pdo->prepare($queryServices);
+$stmt->execute([':id' => $serviceId]);
+$services = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $filterStatus = isset($_GET['status']) ? $_GET['status'] : 'all';
 $queryAppointments = "

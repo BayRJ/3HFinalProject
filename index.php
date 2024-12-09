@@ -21,7 +21,7 @@ require './database/db_connection.php';
         <h1 class="logo-text">LUHLUH's SPA</h1>
       </a>
       <ul class="nav-links">
-        <li><a href="/CIT17-3H" class="nav-link">Home</a></li>
+        <li><a href="index.php" class="nav-link">Home</a></li>
         <li><a href="/CIT17-3H/service-list.php" class="nav-link">Service List</a></li>
         <li><a href="/CIT17-3H/booking.php" class="nav-link">Booking</a></li>
         <li><a href="/CIT17-3H/user-dashboard.php" class="nav-link">User</a></li>

@@ -6,44 +6,49 @@ $error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['phone_number']) && !empty($_POST['password'])) {
-    $full_name = $_POST['full_name'];
-    $email = $_POST['email'];
-    $phone_number = $_POST['phone_number'];
-    $password = $_POST['password'];
+    $full_name = trim(filter_input(INPUT_POST, 'full_name', FILTER_SANITIZE_STRING));
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    $phone_number = preg_replace('/[^0-9+]/', '', $_POST['phone_number']);
 
-    try {
-      $stmt = $pdo->prepare("SELECT COUNT(*) FROM Users WHERE email = :email");
-      $stmt->bindParam(':email', $email);
-      $stmt->execute();
-      $count = $stmt->fetchColumn();
+    if (!$email) {
+        $error = "Please enter a valid email address.";
+    } else {
+      $password = $_POST['password'];
 
-      if ($count > 0) {
-        $error = "This email is already registered.";
-      } else {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        $stmt = $pdo->prepare("
-                    INSERT INTO Users (full_name, email, phone_number, password, role) 
-                    VALUES (:full_name, :email, :phone_number, :password, 'customer')
-                ");
-        $stmt->bindParam(':full_name', $full_name);
+      try {
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM Users WHERE email = :email");
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone_number', $phone_number);
-        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
 
-        if ($stmt->execute()) {
-
-          $user_id = $pdo->lastInsertId();
-          $_SESSION['user_id'] = $user_id;
-
-          header("Location: index.php");
-          exit();
+        if ($count > 0) {
+          $error = "This email is already registered.";
         } else {
-          $error = "Registration failed. Please try again.";
+          $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+          $stmt = $pdo->prepare("
+                      INSERT INTO Users (full_name, email, phone_number, password, role) 
+                      VALUES (:full_name, :email, :phone_number, :password, 'customer')
+                  ");
+          $stmt->bindParam(':full_name', $full_name);
+          $stmt->bindParam(':email', $email);
+          $stmt->bindParam(':phone_number', $phone_number);
+          $stmt->bindParam(':password', $hashedPassword);
+
+          if ($stmt->execute()) {
+
+            $user_id = $pdo->lastInsertId();
+            $_SESSION['user_id'] = $user_id;
+
+            header("Location: index.php");
+            exit();
+          } else {
+            $error = "Registration failed. Please try again.";
+          }
         }
+      } catch (PDOException $e) {
+        $error = "Database error: " . $e->getMessage();
       }
-    } catch (PDOException $e) {
-      $error = "Database error: " . $e->getMessage();
     }
   } else {
     $error = "All fields are required.";

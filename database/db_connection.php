@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $host = 'localhost';
 $db = 'cit17database';
 $user = 'root';
@@ -15,5 +18,6 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
-    throw new PDOException($e->getMessage(), (int)$e->getCode());
+    error_log("Connection failed: " . $e->getMessage());
+    die("Sorry, there was a problem connecting to the database. Please try again later.");
 }

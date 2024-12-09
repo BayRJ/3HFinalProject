@@ -11,6 +11,10 @@ if (isset($_SESSION['user_id'])) {
 
 $error = "";
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $email = $_POST['email'];
@@ -26,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['username'] = $user['username']; // Add username to session
-        header("Location: user.php");
         header("Location: index.php");
         exit();
       } else {
@@ -200,7 +203,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php if ($error): ?>
       <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
-    <form method="POST" action="logIn.php">
+    <form method="POST" action="login.php">
+      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" placeholder="Enter your email" autocomplete="email" required>
 

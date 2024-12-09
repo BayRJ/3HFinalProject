@@ -2,6 +2,21 @@
 require './database/db_connection.php';
 session_start();
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT role FROM Users WHERE user_id = :user_id");
+$stmt->bindParam(':user_id', $_SESSION['user_id']);
+$stmt->execute();
+$user = $stmt->fetch();
+
+if ($user['role'] !== 'admin') {
+    header("Location: index.php");
+    exit();
+}
+
 $queryServices = "SELECT * FROM Services";
 $stmtServices = $pdo->query($queryServices);
 $services = $stmtServices->fetchAll(PDO::FETCH_ASSOC);
