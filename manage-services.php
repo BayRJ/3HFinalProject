@@ -1,3 +1,9 @@
+<head>
+    <!-- ... other head elements ... -->
+    <link rel="stylesheet" href="manage-service.css">
+    <link rel="stylesheet" href="shared/common.css">
+</head> 
+
 <?php
 require './database/db_connection.php';
 session_start();
@@ -158,8 +164,9 @@ $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Manage Services</title>
   <link rel="stylesheet" href="manage-service.css" />
+  <link rel="stylesheet" href="shared/common.css">
 </head>
 
 <body>

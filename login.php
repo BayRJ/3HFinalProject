@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="./userPage_SRC/sign.css">
+  <link rel="stylesheet" href="shared/common.css">
 </head>
 <style>
   body {

@@ -1,0 +1,126 @@
+/* Common styles used across pages */
+:root {
+  --primary-color: #065f46;
+  --secondary-color: #fed7aa;
+  --text-color: #4b5563;
+  --danger-color: #dc2626;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --background-color: #ffedd5;
+  /* Add more global variables */
+}
+
+/* Shared navbar styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+/* etc */
+
+/* Add better focus states and ARIA support */
+:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Add skip-to-main-content link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 8px;
+  background: var(--primary-color);
+  color: white;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Use hardware acceleration for animations */
+.animated-element {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Optimize transitions */
+.transition-element {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1f2937;
+    --text-color: #f3f4f6;
+    --card-background: #374151;
+  }
+
+  .service-card {
+    background-color: var(--card-background);
+    color: var(--text-color);
+  }
+}
+
+/* Add better loading states */
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(2px);
+}
+
+/* Add better feedback for interactions */
+.button {
+  position: relative;
+  overflow: hidden;
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.3s ease;
+}
+
+.button:active::after {
+  transform: scale(2);
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  body {
+    background: white;
+  }
+
+  .service-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

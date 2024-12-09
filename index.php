@@ -10,6 +10,7 @@ require './database/db_connection.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LuhLuh Spa</title>
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="shared/common.css">
 </head>
 
 <body class="font-sans bg-orange-100" style="overflow-x: hidden;">

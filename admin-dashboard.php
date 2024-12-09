@@ -139,8 +139,9 @@ $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Admin Dashboard</title>
   <link rel="stylesheet" href="./admin-dashboard.css" />
+  <link rel="stylesheet" href="shared/common.css">
 </head>
 
 <body>
