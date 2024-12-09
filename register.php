@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
     <form method="POST" action="register.php">
-      <label for="full_name" style="">Full Name:</label>
+      <label for="full_name">Full Name:</label>
       <input type="text" id="full_name" name="full_name" placeholder="Enter your full name" required>
 
       <label for="email">Email:</label>
