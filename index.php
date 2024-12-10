@@ -11,9 +11,14 @@ require './database/db_connection.php';
   <title>LuhLuh Spa</title>
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="shared/common.css">
+  <link rel="stylesheet" href="testimonial.css">
+  <!-- Google fonts link for icon -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
+  <!-- Swiper CSS link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 
-<body class="font-sans bg-orange-100" style="overflow-x: hidden;">
+<body class="font-sans bg-orange-100" style="overflow-x: hidden; background: green;">
   <div class="header-container">
     <nav class="navbar">
       <a href="/" class="logo-container">
@@ -59,58 +64,66 @@ require './database/db_connection.php';
       <div class="background-johny flex-center">
         <img src="logo-spa-hero.png" alt="Logo" class="hero-logo">
         <div class="headline">
-          <h2 class="title-primary">Pamper yourself to perfection</h2>
-          <h2 class="title-secondary">Experience Johny at its Finest</h2>
+          <h4 class="title-primary">Pamper yourself to perfection</h4>
+          <h4 class="title-secondary">Experience Johny at its Finest</h4>
         </div>
-        <div class="button-group">
-          <button class="btn-primary">Book Now</button>
-          <button class="btn-primary">View Services</button>
+        <div class="button-group" style="position: relative;">
+          <div class="border-box"><button class="btn-primary" style="position:relative; z-index: 10; padding: 18px; margin: 10px; background: #047857;">Book Now</button></div>
+          <div class="border-box"><button class="btn-primary" style="position:relative; z-index: 10; padding: 0px; background: #047857;">View Services</button></div>
+
         </div>
       </div>
     </div>
 
-    <div class="services-section" class="nature-services" style="background: url('nature.jpg') no-repeat center center;   background-size: cover;
+    <div class="services-section" class="nature-services" style="background: url('nature-trip2.jpg') no-repeat center center;   background-size: cover;
   padding: 2rem;
   height: 100vh;
   width: 100vw;
      backdrop-filter: blur(60px); 
   ">
-      <h2 class="section-title" style="color: white;">Services Offered</h2>
+      <h2 class="section-title f-name" style="color: white; font-size: 80px; font-weight: 800;   margin-bottom: 10px;
+  color: transparent;
+  -webkit-text-stroke: 1px #fff;
+  background: url(images/back.png);
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-position: 0 0;
+  animation: back 20s linear infinite;">SERVICES</h2>
       <div class="services-container">
-        <div class="service-card" style="background: #fed7aa;  border: 2px solid white;">
+        <div class="service-card" style="background: white;  border: 2px solid white;">
           <div class="image-container">
             <img src="back.jpeg" alt="Service item" class="service-image">
           </div>
           <div class="text-content">
             <span class="service-name">Back Spa</span>
             <h3 class="service-description">Durog likod mo</h3>
-            <h3 class="service-price">2500 Pesos</h3>
+            <h3 class="service-price">₱ 2500 </h3>
             <h3 class="service-duration">30 minutes</h3>
             <a href="./booking.php" class="book-now">Book Now</a>
           </div>
         </div>
-        <div class="service-card" style="background: #fed7aa;  border: 2px solid white;">
+        <div class="service-card" style="background: white;  border: 2px solid white;">
           <div class="image-container">
             <img src="foot-spa.jpg" alt="Service item" class="service-image">
           </div>
           <div class="text-content">
             <span class="service-name">Foot Spa</span>
             <h3 class="service-description">Babango paa mo</h3>
-            <h3 class="service-price">4500 Pesos</h3>
+            <h3 class="service-price">₱ 4500</h3>
             <h3 class="service-duration">1 hour</h3>
 
             <a href="./booking.php" class="book-now">Book Now</a>
 
           </div>
         </div>
-        <div class="service-card" style="background: #fed7aa;  border: 2px solid white;">
+        <div class="service-card" style="background: white;  border: 2px solid white;">
           <div class="image-container">
             <img src="head.jpg" alt="Service item" class="service-image">
           </div>
           <div class="text-content">
             <span class="service-name">Head Spa</span>
             <h3 class="service-description">Mawawala kuto mo</h3>
-            <h3 class="service-price">1500 Pesos</h3>
+            <h3 class="service-price">₱ 1500</h3>
             <h3 class="service-duration">20 minutes</h3>
             <a href="./booking.php" class="book-now">Book now</a>
           </div>
@@ -119,62 +132,100 @@ require './database/db_connection.php';
     </div>
     <!-- Testimonialssssssssssssssssssssssssssssssssssssssssssss -->
 
-    <div class="testimonials-section" style="background: url('nature-2.jpg') no-repeat center center;   background-size: cover;
-  height: 100vh;
-  width: 100vw;
-     backdrop-filter: blur(60px);  margin-top: -80px; padding-bottom: 60px; padding-top: 1px;">
-      <h2 class="section-title" style="margin-top: 40px; ">Testimonials</h2>
-      <div class="services-container">
-        <div class="service-card">
-          <div class="image-container">
-            <img src="awra.jpg" alt="Service item" class="service-image">
-          </div>
-          <div class="text-content">
-            <h3 class="service-price">Best spa! ever.</h3>
-
-            <div class="cta-container">
-              <img src="star-rating.jpg" alt="star-rating" class="" style="height: 200px; width: 200px; margin-top: 50px;" />
+    <div style=" margin-top: -85px; width: 100vw; height: 100vh;  max-width: 2000px;background: url('nature-trip3.jpg') no-repeat center center;
+padding-top: 50px; ">
+      <h2 class="section-title f-name" style="color: white; font-size: 80px; font-weight: 800;  
+  color: transparent;
+  -webkit-text-stroke: 1px #fff;
+  background: url(images/back.png);
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-position: 0 0;
+  animation: back 20s linear infinite; margin-bottom: -80px;;">TESTIMONIALS</h2>
+      <div class="container swiper" style="width: 100vw; height: 100vh; padding:3; margin: 0; max-width: 2000px;">
+        <div class="slider-wrapper" style=" margin: 0 auto; margin-top: 130px;">
+          <div class="card-list swiper-wrapper">
+            <div class="card-item swiper-slide">
+              <img src="images/user6.jpg" alt="User Profile" class="user-image" />
+              <h3 class="user-name">Ayala Masola</h3>
+              <p class="review-text">"Good service, nice ambiance, nice technique and a cozy vibe. Lovely johny!"</p>
+              <div class="review-rating">
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+              </div>
+            </div>
+            <div class="card-item swiper-slide">
+              <img src="images/user7.jpeg" alt="User Profile" class="user-image" />
+              <h3 class="user-name">Ange Tang</h3>
+              <p class="review-text">"Service was friendly, everything went smoothly"</p>
+              <div class="review-rating">
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star_half </span>
+                <span class="material-symbols-outlined"> star_half </span>
+              </div>
+            </div>
+            <div class="card-item swiper-slide">
+              <img src="images/user8.jpeg" alt="User Profile" class="user-image" />
+              <h3 class="user-name">Christy Bermonths</h3>
+              <p class="review-text">"Authentic and warm service. My schedule was delayed but worth the wait!"</p>
+              <div class="review-rating">
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star_half </span>
+              </div>
+            </div>
+            <div class="card-item swiper-slide">
+              <img src="images/user9.jpeg" alt="User Profile" class="user-image" />
+              <h3 class="user-name">Yany Jurado</h3>
+              <p class="review-text">"Good service, beautiful presentation, and friendly staff. Highly recommend!"</p>
+              <div class="review-rating">
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+              </div>
+            </div>
+            <div class="card-item swiper-slide">
+              <img src="./awra.jpg" alt="User Profile" class="user-image" />
+              <h3 class="user-name">Awra Brigada</h3>
+              <p class="review-text">"Casual spot with fantastic massage. Perfect for a quickie!"</p>
+              <div class="review-rating">
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star </span>
+                <span class="material-symbols-outlined"> star_half </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="service-card">
-          <div class="image-container">
-            <img src="queen-dura.jpg" alt="Service item" class="service-image">
-          </div>
-          <div class="text-content">
 
-            <h3 class="service-price">Very relaxing </h3>
-            <h3 class="service-price">Will come again!</h3>
-
-            <div class="cta-container">
-              <img src="star-rating.jpg" alt="star-rating" class="" style="height: 200px; width: 200px;" />
-            </div>
-          </div>
-        </div>
-        <div class="service-card">
-          <div class="image-container">
-            <img src="arman.jpg" alt="Service item" class="service-image">
-          </div>
-          <div class="text-content">
-
-            <h3 class="service-price">Very nice ambiance and </h3>
-            <h3 class="service-price">quality massage</h3>
-
-            <div class="cta-container">
-              <img src="star-rating.jpg" alt="star-rating" class="" style="height: 200px; width: 200px;" />
-            </div>
-          </div>
+          <div class="swiper-pagination" style="margin-top: -150px; bottom: 220px;"></div>
+          <div class="swiper-slider-button swiper-button-prev" style="margin-left: 50px;"></div>
+          <div class="swiper-slider-button swiper-button-next" style="margin-right: 50px;"></div>
         </div>
       </div>
     </div>
 
-    <div class="cta-section flex-center" style="background: url('eimi.jpg') no-repeat center center;   background-size: cover;
+
+
+
+
+
+    <div class="cta-section flex-center" style="background: url('nature-2.jpg') no-repeat center center;   background-size: cover;
   height: 100vh;
   width: 100vw;
      backdrop-filter: blur(60px);  margin-top: -80px; padding-bottom: 60px; padding-top: 1px;">
-      <h2 class="cta-text" style="width: 60%;  background-color: #fed7aa; border: none; border-radius: 50px; padding: 20px;">
-        "Relax, rejuvenate, and treat yourself to the ultimate spa experience you deserve. Book your appointment today and let our specialists help you unwind and recharge!"</h2>
-      <h2 class="cta-text" style="width: 60%;  background-color: #fed7aa; border: none; border-radius: 50px; padding: 20px;">Don't Wait Schedule Your first session now!</h2>
+      <img src="./lana.png" alt="lana" style="height: 50%; border-radius: 80px; background: lightgreen;   box-shadow: 0 0 10px 20px rgba(255, 255, 255, 0.8);
+   animation: floatImage 4s ease-in-out infinite; position: relative;" class="lana">
+      <h3 class="cta-text" style="  border: none; border-radius: 50px; font-size: 50px; text-transform: uppercase; color: white; font-weight: extrabold;">Don't Wait! Schedule Your first session now!</h3>
       <button class="btn-primary">Book Now</button>
     </div>
 
@@ -182,6 +233,11 @@ require './database/db_connection.php';
       <p class="footer-text">© 2024 LuhLuh Spa. The best you deserved all time.</p>
     </footer>
   </div>
+  <!-- Adding swiper js script -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Adding custom script -->
+  <script src="script.js"></script>
 </body>
 
 </html>

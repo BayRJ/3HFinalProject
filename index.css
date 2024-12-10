@@ -103,6 +103,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background-color: #065f46;
 }
 
 .flex-center {
@@ -133,7 +134,7 @@ body {
 }
 
 .nature-services {
-  background: url('nature.jpg') no-repeat center center;
+  background: url('nature-trip.jpg') no-repeat center center;
   background-size: cover;
   padding: 2rem;
   height: 100vh;
@@ -162,6 +163,7 @@ body {
 
 /* Button Group */
 .button-group {
+  width: 30%;
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
@@ -259,11 +261,12 @@ body {
 .service-card {
   display: flex;
   flex-direction: column;
-  width: 20rem; /* Equivalent to w-80 */
+  width: 25rem; /* Equivalent to w-80 */
+  height: 32rem;
   padding: 1.25rem; /* Equivalent to p-5 */
-  background-color: rgba(255, 255, 255, 0.75); /* Equivalent to bg-white/75 */
+  background-color: rgb(255, 255, 255); /* Equivalent to bg-white/75 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Equivalent to shadow-xl */
-  gap: 1.25rem; /* Equivalent to gap-5 */
+
   border: 2px solid white; /* Equivalent to border-2 border-white */
   border-radius: 1rem; /* Equivalent to rounded-2xl */
   overflow: hidden;
@@ -271,7 +274,7 @@ body {
 
 /* Image Container */
 .image-container {
-  height: 10rem; /* Equivalent to h-40 */
+  height: 17rem; /* Equivalent to h-40 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -283,6 +286,7 @@ body {
   width: 100%;
   object-fit: cover; /* Equivalent to object-cover */
   display: block;
+  border-radius: 40px;
 }
 
 /* Text Content */
@@ -292,13 +296,14 @@ body {
 }
 
 .service-name {
-  font-size: 0.875rem; /* Equivalent to text-sm */
+  margin-top: -20px;
+  font-size: 2.5rem; /* Equivalent to text-sm */
   color: #047857; /* Equivalent to text-green-700 */
   font-weight: 500; /* Equivalent to font-medium */
 }
 
 .service-description {
-  font-size: 0.875rem; /* Equivalent to text-sm */
+  font-size: 1.12rem; /* Equivalent to text-sm */
   color: #000000; /* Equivalent to text-black */
   font-weight: bold;
 }
@@ -320,18 +325,110 @@ body {
   .nav-links {
     display: none; /* Add mobile menu functionality */
   }
-  
+
   .services-container {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .service-card {
     width: 90%;
   }
 }
 
-.nav-link, .btn-primary {
+.nav-link,
+.btn-primary {
   transition: color 0.2s ease, background-color 0.2s ease;
   will-change: color, background-color;
+}
+
+/* .f-name {
+  animation: showRight 1s ease forwards;
+  animation-delay: 3s;
+  opacity: 0;
+}
+
+@keyframes showRight {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+} */
+
+.f-name {
+  margin-bottom: 10px;
+  color: transparent;
+  -webkit-text-stroke: 1px #fff;
+  background: url(images/back.png);
+  background-clip: text;
+  -webkit-background-clip: text;
+  background-position: 0 0;
+  animation: back 20s linear infinite;
+}
+
+.lana {
+  animation: floatImage 4s ease-in-out infinite;
+  position: relative;
+}
+
+@keyframes back {
+  100% {
+    background-position: 2000px 0;
+  }
+}
+
+@keyframes floatImage {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.border-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #065f46;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.border-box::before {
+  content: '';
+  position: absolute;
+  width: 110%;
+  height: 60%;
+  background-color: white;
+  box-shadow: 0 0 20px rgb(8, 8, 8);
+  animation: animate 4s linear infinite;
+  z-index: 0;
+}
+
+.border-box::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  background-color: #047857;
+  border-radius: 16px;
+  z-index: 1;
+}
+
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

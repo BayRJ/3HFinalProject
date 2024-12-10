@@ -1,19 +1,12 @@
-<head>
-    <!-- ... other head elements ... -->
-    <link rel="stylesheet" href="manage-service.css">
-    <link rel="stylesheet" href="shared/common.css">
-</head> 
-
 <?php
 require './database/db_connection.php';
 session_start();
 
 
 
-$queryServices = "SELECT * FROM Services WHERE service_id = :id";
-$stmt = $pdo->prepare($queryServices);
-$stmt->execute([':id' => $serviceId]);
-$services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$queryServices = "SELECT * FROM Services";
+$stmtServices = $pdo->query($queryServices);
+$services = $stmtServices->fetchAll(PDO::FETCH_ASSOC);
 
 $filterStatus = isset($_GET['status']) ? $_GET['status'] : 'all';
 $queryAppointments = "
@@ -165,9 +158,8 @@ $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Services</title>
+  <title>Document</title>
   <link rel="stylesheet" href="manage-service.css" />
-  <link rel="stylesheet" href="shared/common.css">
 </head>
 
 <body>
@@ -221,7 +213,7 @@ $payments = $stmtPayments->fetchAll(PDO::FETCH_ASSOC);
       <div class="tabs">
         <button class="tab" data-tab="bookings"><a href="/CIT17-3H/admin-dashboard.php" style="color: white;">Manage Bookings</a></button>
         <button class="tab" data-tab="services"><a href="/CIT17-3H/manage-services.php" style="color: white;">Manage Services</a></button>
-        <button class="tab" data-tab="schedule">Therapist Schedule</button>
+
         <button class="tab" data-tab="payments">Payments & Reports</button>
       </div>
 

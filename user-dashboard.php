@@ -9,9 +9,9 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("Invalid request");
-    }
+  if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("Invalid request");
+  }
 }
 
 $user_id = $_SESSION['user_id'];
@@ -185,27 +185,7 @@ try {
         <div id="past-appointments" class="appointments-list"></div>
       </div>
 
-      <!-- Account Settings Tab -->
-      <div id="settings-tab" class="tab-content hidden">
-        <h2 class="section-title">Account Settings</h2>
 
-
-        <div id="profile-display">
-
-          <p><strong>Name:</strong> <?php echo htmlspecialchars($user['full_name']); ?></p>
-          <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
-          <p><strong>Phone Number:</strong> <?php echo htmlspecialchars($user['phone_number']); ?></p>
-          <button id="edit-profile" class="action-button" style="border: none; color: white; background-color:#047857; padding: 15px;">Edit Profile</button>
-        </div>
-
-
-      </div>
-
-      <!-- Promotions Tab -->
-      <div id="promotions-tab" class="tab-content hidden">
-        <h2 class="section-title">Promotions & Rewards</h2>
-        <div id="promotions-list" class="promotions-list"></div>
-      </div>
     </div>
   </div>
 </body>

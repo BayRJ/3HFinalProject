@@ -107,7 +107,7 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </nav>
   </div>
   <div style="display: flex">
-    <div class="container" style="flex:50%;">
+    <div class="container" style="width: 20vw;  height: 160vh; padding: 1; margin-right: 3px;">
       <!-- Filters Sidebar -->
       <div class="filters-sidebar" style="width: 20vw; margin-top: 70px;">
         <h2 class=" filters-title">Filters</h2>
@@ -166,7 +166,7 @@ $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $service_name = isset($service['service_name']) ? htmlspecialchars($service['service_name']) : 'No Name';
         $service_description = isset($service['description']) ? htmlspecialchars($service['description']) : 'No Description';
       ?>
-        <div class="service-card" data-type="<?= $service_type; ?>" data-price="<?= $service_price; ?>" data-duration="<?= $service_duration; ?>">
+        <div class="service-card" data-type="<?= $service_type; ?>" data-price="<?= $service_price; ?>" data-duration="<?= $service_duration; ?>" style="height: 450px;">
           <div class="image-container">
             <img src="./servicelist_images/<?= htmlspecialchars($image_names[$index]); ?>" alt="<?= $service_name; ?>" class=" service-image">
           </div>
